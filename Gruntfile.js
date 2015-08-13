@@ -23,12 +23,23 @@ module.exports = function(grunt) {
 			sass: {
 				// Watches all Sass or Scss files within the sass folder and one level down. 
 				// If you want to watch all scss files instead, use the "**/*" globbing pattern
-				files: ['sass/{,*/}*.{scss,sass}'],
+				files: ['<%= swg.src %>/*.{scss,sass}'],
 				// runs the task `sass` whenever any watched file changes 
 				tasks: ['sass', 'sync']
+
 			},
 			options: {
-				spawn: false
+				spawn: false,
+				interrupt: true,
+				// voir ici https://github.com/livereload/livereload-js
+				// et ici https://addons.mozilla.org/fr/firefox/addon/livereload/
+				// et ici https://github.com/gruntjs/grunt-contrib-watch/blob/master/docs/watch-examples.md#enabling-live-reload-in-your-html
+				livereload: 35729,
+				livereloadOnError: false,
+				dateFormat: function(time) {
+					grunt.log.write(grunt.template.today("[hh:MM:ss] "));
+					grunt.log.writeln('Execution en '+time+'ms');
+				}
 			}
 		},
 		sync: {
@@ -47,7 +58,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
-	grunt.registerTask('default', ['integratorConfig', 'sass', 'sync']);
+	grunt.registerTask('default', ['integratorConfig', 'watch']);
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
