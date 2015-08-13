@@ -2,20 +2,21 @@
 module.exports = function(grunt) {
 
 	grunt.initConfig({
+		cfg: grunt.file.readJSON('config.json'),
 		sass: {
 			app: {
 				files: [{
 					expand: true,
-					cwd: 'sass',
+					cwd: '<%= swg.src %>',
 					src: ['*.scss'],
 					dest: 'css',
 					ext: '.css'
 				}]
 			},
+			// Voir https://github.com/sass/node-sass#options pour toutes les operations
 			options: {
 				sourceMap: true, 
-				outputStyle: 'nested', 
-				imagePath: "../",
+				outputStyle: 'nested'	
 			}
 		},
 		watch: {
@@ -32,9 +33,11 @@ module.exports = function(grunt) {
 		},
 		sync: {
 			main: {
-				files: [
-					{cwd: 'css', src: ['style.css'], dest: '/home/toine/mnt/mutint2/www/swgbrossette2/css/toine'}
-				],
+				files: [{
+					cwd: 'css',
+					src: ['*.css', '*.css.map'],
+					dest: '<%= swg.dst %>'
+				}],
 				verbose: true, // Default: false 
 				pretend: false // Don't do any disk operations - just write log. Default: false 
 			}
@@ -45,4 +48,18 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.registerTask('default', ['sass']);
+	grunt.registerTask('test', 'task de test',  function() {
+
+		var prefix = grunt.config.data.cfg.prefix;
+		var www = grunt.config.data.cfg.www;
+		var destination = www+'/'+grunt.option('dir')+'/css/'+prefix;
+		grunt.config('swg.src', grunt.option('dir')+'/sass');
+		grunt.config('swg.dst', destination);
+
+		grunt.log.write("Répertoire selectionné    : ").writeln(grunt.option('dir'));
+		grunt.log.write("Répertoire de destination : ").writeln(destination);
+		grunt.task.run('sass');
+		grunt.task.run('sync');
+	});
+
 };
