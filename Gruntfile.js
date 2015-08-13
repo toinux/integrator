@@ -47,19 +47,23 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
-	grunt.registerTask('default', ['sass']);
-	grunt.registerTask('test', 'task de test',  function() {
+	grunt.registerTask('default', ['integratorConfig', 'sass', 'sync']);
 
-		var prefix = grunt.config.data.cfg.prefix;
-		var www = grunt.config.data.cfg.www;
-		var destination = www+'/'+grunt.option('dir')+'/css/'+prefix;
-		grunt.config('swg.src', grunt.option('dir')+'/sass');
-		grunt.config('swg.dst', destination);
+	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
-		grunt.log.write("Répertoire selectionné    : ").writeln(grunt.option('dir'));
-		grunt.log.write("Répertoire de destination : ").writeln(destination);
-		grunt.task.run('sass');
-		grunt.task.run('sync');
+		var dir = grunt.option('dir') || grunt.fail.fatal("option --dir=<repertoire> manquante");
+
+		var source = dir+'/sass';
+		grunt.file.isDir(source) || grunt.fail.fatal("repertoire '"+source+"' inexistant");
+
+		var destination = grunt.config.data.cfg.www + '/' + grunt.option('dir') + '/css/'
+		grunt.file.isDir(destination) || grunt.fail.fatal("repertoire '"+destination+"' inexistant");
+
+		grunt.config('swg.src', source);
+		grunt.config('swg.dst', destination + grunt.config.data.cfg.prefix);
+
+		grunt.log.write("Répertoire sass : ").writeln(source['cyan']);
+		grunt.log.write("Répertoire css  : ").writeln(destination['cyan']);
 	});
 
 };
