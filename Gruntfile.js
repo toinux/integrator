@@ -79,6 +79,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.registerTask('default', ['integratorConfig', 'watch']);
+	grunt.registerTask('build', ['integratorConfig', 'sass']);
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
