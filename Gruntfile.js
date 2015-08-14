@@ -20,7 +20,10 @@ module.exports = function(grunt) {
 			options: {
 				sourceMap: true, 
 				outputStyle: 'nested',
-				includePaths: [ '.compass'],
+				includePaths: [
+					'.compass',
+					'bower_components/bootstrap-sass/assets/stylesheets'
+					],
             	importer: compass
 			}
 		},
