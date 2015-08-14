@@ -57,6 +57,11 @@ module.exports = function(grunt) {
 					cwd: '<%= swg.src %>',
 					src: ['*.scss'],
 					dest: 'sass'
+				},
+				{
+					cwd: grunt.option('src'),
+					src: ['*.scss'],
+					dest: grunt.option('dst')
 				}],
 				verbose: true, // Default: false 
 				pretend: false, // Don't do any disk operations - just write log. Default: false
