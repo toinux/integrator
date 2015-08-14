@@ -5,6 +5,7 @@ var compass = require('compass-importer');
 module.exports = function(grunt) {
 
 	grunt.initConfig({
+		cfg: grunt.file.exists('config.json') ? grunt.file.readJSON('config.json') : {},
 		sass: {
 			app: {
 				files: [{
@@ -17,7 +18,7 @@ module.exports = function(grunt) {
 			},
 			// Voir https://github.com/sass/node-sass#options pour toutes les operations
 			options: {
-				sourceMap: false, 
+				sourceMap: true, 
 				outputStyle: 'compressed',
 				includePaths: [
 					'.compass',
@@ -75,6 +76,8 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.config.merge(grunt.config('cfg'));
+	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
@@ -95,6 +98,7 @@ module.exports = function(grunt) {
 
 		grunt.log.write("Répertoire source      : ").writeln(src['cyan']);
 		grunt.log.write("Répertoire destination : ").writeln(dst['cyan']);
+		
 	});
 
 };
