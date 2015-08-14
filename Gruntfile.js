@@ -9,9 +9,9 @@ module.exports = function(grunt) {
 			app: {
 				files: [{
 					expand: true,
-					cwd: '<%= swg.src %>',
+					cwd: 'sass',
 					src: ['*.scss'],
-					dest: 'css',
+					dest: '<%= swg.dst %>',
 					ext: '.css'
 				}]
 			},
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 				// If you want to watch all scss files instead, use the "**/*" globbing pattern
 				files: ['<%= swg.src %>/*.{scss,sass}'],
 				// runs the task `sass` whenever any watched file changes 
-				tasks: ['sass', 'sync']
+				tasks: ['sync', 'sass']
 
 			},
 			options: {
@@ -52,9 +52,9 @@ module.exports = function(grunt) {
 		sync: {
 			main: {
 				files: [{
-					cwd: 'css',
-					src: ['*.css', '*.css.map'],
-					dest: '<%= swg.dst %>'
+					cwd: '<%= swg.src %>',
+					src: ['*.scss'],
+					dest: 'sass'
 				}],
 				verbose: true, // Default: false 
 				pretend: false // Don't do any disk operations - just write log. Default: false 
@@ -77,8 +77,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.registerTask('default', ['integratorConfig', 'watch']);
-	grunt.registerTask('build', ['integratorConfig', 'sass']);
+	grunt.registerTask('default', ['integratorConfig', 'sync', 'watch']);
+	grunt.registerTask('build', ['integratorConfig', 'sync', 'sass']);
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
