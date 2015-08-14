@@ -5,7 +5,6 @@ var compass = require('compass-importer');
 module.exports = function(grunt) {
 
 	grunt.initConfig({
-		cfg: grunt.file.readJSON('config.json'),
 		sass: {
 			app: {
 				files: [{
@@ -18,7 +17,7 @@ module.exports = function(grunt) {
 			},
 			// Voir https://github.com/sass/node-sass#options pour toutes les operations
 			options: {
-				sourceMap: true, 
+				sourceMap: false, 
 				outputStyle: 'compressed',
 				includePaths: [
 					'.compass',
@@ -83,19 +82,17 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
-		var dir = grunt.option('dir') || grunt.fail.fatal("option --dir=<repertoire> manquante");
+		var src = grunt.option('src') || grunt.fail.fatal("option --src=<repertoire> manquant");
+		var dst = grunt.option('dst') || grunt.fail.fatal("option --dst=<repertoire> manquant");
 
-		var source = dir+'/sass';
-		grunt.file.isDir(source) || grunt.fail.fatal("repertoire '"+source+"' inexistant");
+		grunt.file.isDir(src) || grunt.fail.fatal("repertoire '"+src+"' inexistant");
+		grunt.file.isDir(dst) || grunt.fail.warn("repertoire '"+dst+"' inexistant");
 
-		var destination = grunt.config.data.cfg.www + '/' + grunt.option('dir') + '/css/'
-		grunt.file.isDir(destination) || grunt.fail.fatal("repertoire '"+destination+"' inexistant");
+		grunt.config('swg.src', src);
+		grunt.config('swg.dst', dst);
 
-		grunt.config('swg.src', source);
-		grunt.config('swg.dst', destination + grunt.config.data.cfg.prefix);
-
-		grunt.log.write("Répertoire sass : ").writeln(source['cyan']);
-		grunt.log.write("Répertoire css  : ").writeln(destination['cyan']);
+		grunt.log.write("Répertoire source      : ").writeln(src['cyan']);
+		grunt.log.write("Répertoire destination : ").writeln(dst['cyan']);
 	});
 
 };
