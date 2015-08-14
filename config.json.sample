@@ -1,0 +1,8 @@
+{
+	"sass" : {
+		"options" : {
+			"outputStyle" : "nested",
+			"sourceMap": true
+		}
+	}
+}
