@@ -42,7 +42,7 @@ module.exports = function(grunt) {
 				livereload: 35729,
 				livereloadOnError: false,
 				dateFormat: function(time) {
-					grunt.log.write(grunt.template.today("[hh:MM:ss] "));
+					grunt.log.write(grunt.template.today("[HH:MM:ss] "));
 					grunt.log.writeln('Execution en '+time+'ms');
 				}
 			}
