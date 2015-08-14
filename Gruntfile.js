@@ -1,4 +1,7 @@
 'use strict';
+
+var compass = require('compass-importer');
+
 module.exports = function(grunt) {
 
 	grunt.initConfig({
@@ -16,7 +19,9 @@ module.exports = function(grunt) {
 			// Voir https://github.com/sass/node-sass#options pour toutes les operations
 			options: {
 				sourceMap: true, 
-				outputStyle: 'nested'	
+				outputStyle: 'nested',
+				includePaths: [ '.compass'],
+            	importer: compass
 			}
 		},
 		watch: {
