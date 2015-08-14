@@ -36,6 +36,7 @@ module.exports = function(grunt) {
 
 			},
 			options: {
+				atBegin: true,
 				spawn: false,
 				interrupt: true,
 				// voir ici https://github.com/livereload/livereload-js
@@ -57,7 +58,8 @@ module.exports = function(grunt) {
 					dest: 'sass'
 				}],
 				verbose: true, // Default: false 
-				pretend: false // Don't do any disk operations - just write log. Default: false 
+				pretend: false, // Don't do any disk operations - just write log. Default: false
+				updateAndDelete: true
 			}
 		},
 		cssmin: {
@@ -77,8 +79,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.registerTask('default', ['integratorConfig', 'sync', 'watch']);
-	grunt.registerTask('build', ['integratorConfig', 'sync', 'sass']);
+	grunt.registerTask('default', ['integratorConfig', 'watch']);
+	grunt.registerTask('build', ['integratorConfig', 'sass']);
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
