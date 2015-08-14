@@ -1,7 +1,5 @@
 'use strict';
 
-var compass = require('compass-importer');
-
 module.exports = function(grunt) {
 
 	grunt.initConfig({
@@ -23,8 +21,7 @@ module.exports = function(grunt) {
 				includePaths: [
 					'.compass',
 					'bower_components/bootstrap-sass/assets/stylesheets'
-					],
-            	importer: compass
+					]
 			}
 		},
 		watch: {
