@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 			// Voir https://github.com/sass/node-sass#options pour toutes les operations
 			options: {
 				sourceMap: true, 
-				outputStyle: 'nested',
+				outputStyle: 'compressed',
 				includePaths: [
 					'.compass',
 					'bower_components/bootstrap-sass/assets/stylesheets'
@@ -60,12 +60,24 @@ module.exports = function(grunt) {
 				verbose: true, // Default: false 
 				pretend: false // Don't do any disk operations - just write log. Default: false 
 			}
+		},
+		cssmin: {
+			options: {
+				shorthandCompacting: false,
+				roundingPrecision: -1
+			},
+			target: {
+				files: {
+					'css/style.min.css': ['css/style.css']
+				}
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.registerTask('default', ['integratorConfig', 'watch']);
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
