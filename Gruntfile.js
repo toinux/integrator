@@ -3,14 +3,13 @@
 module.exports = function(grunt) {
 
 	grunt.initConfig({
-		cfg: grunt.file.exists('config.json') ? grunt.file.readJSON('config.json') : {},
 		sass: {
 			app: {
 				files: [{
 					expand: true,
 					cwd: 'sass',
 					src: ['*.scss'],
-					dest: '<%= swg.dst %>',
+					dest: grunt.option('dst'),
 					ext: '.css'
 				}]
 			},
@@ -28,12 +27,13 @@ module.exports = function(grunt) {
 			sass: {
 				// Watches all Sass or Scss files within the sass folder and one level down. 
 				// If you want to watch all scss files instead, use the "**/*" globbing pattern
-				files: ['<%= swg.src %>/*.{scss,sass}'],
+				files: ['*.scss'],
 				// runs the task `sass` whenever any watched file changes 
 				tasks: ['sync', 'sass']
 
 			},
 			options: {
+				cwd: grunt.option('src'),
 				spawn: false,
 				interrupt: true,
 				// voir ici https://github.com/livereload/livereload-js
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 		sync: {
 			main: {
 				files: [{
-					cwd: '<%= swg.src %>',
+					cwd: grunt.option('src'),
 					src: ['*.scss'],
 					dest: 'sass'
 				},
@@ -77,7 +77,10 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.config.merge(grunt.config('cfg'));
+
+	if (grunt.file.exists('config.json')) {
+		grunt.config.merge(grunt.file.readJSON('config.json'));
+	}
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -93,9 +96,6 @@ module.exports = function(grunt) {
 
 		grunt.file.isDir(src) || grunt.fail.fatal("repertoire '"+src+"' inexistant");
 		grunt.file.isDir(dst) || grunt.fail.warn("repertoire '"+dst+"' inexistant");
-
-		grunt.config('swg.src', src);
-		grunt.config('swg.dst', dst);
 
 		grunt.log.write("Répertoire source      : ").writeln(src['cyan']);
 		grunt.log.write("Répertoire destination : ").writeln(dst['cyan']);
