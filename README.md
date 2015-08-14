@@ -4,11 +4,12 @@
 
 	npm install
 	bower install bootstrap-sass
+	bower install compass-mixins
 
-## Configuration
+## Customisation
 
-Il suffit de copier le fichier `config.json.sample` ->  `config.json` et d'y mettre les bonnes valeurs
+Il suffit de copier le fichier `config.json.sample` ->  `config.json` et d'y mettre les valeurs customisées
 
 ## Exécution
 
-	grunt --dir=<repertoire_du_projet>
+	grunt --src=<sass_directory> --dst=<css_directory>
