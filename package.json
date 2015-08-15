@@ -10,9 +10,11 @@
   "license": "ISC",
   "private": true,
   "devDependencies": {
+    "express": "^4.13.3",
     "grunt": "^0.4.5",
     "grunt-contrib-cssmin": "^0.13.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-express-server": "^0.5.1",
     "grunt-sass": "^1.0.0",
     "grunt-sync": "^0.2.4"
   }

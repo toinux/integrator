@@ -53,11 +53,6 @@ module.exports = function(grunt) {
 					cwd: grunt.option('src'),
 					src: ['*.scss'],
 					dest: 'sass'
-				},
-				{
-					cwd: grunt.option('src'),
-					src: ['*.scss'],
-					dest: grunt.option('dst')
 				}],
 				verbose: true, // Default: false 
 				pretend: false, // Don't do any disk operations - just write log. Default: false
@@ -74,6 +69,16 @@ module.exports = function(grunt) {
 					'css/style.min.css': ['css/style.css']
 				}
 			}
+		},
+		express: {
+			options: {
+				args: [] // url de redirection par defaut, par exemple ['http://www.foo.bar']
+			},
+			main: {
+				options: {
+					script: 'server.js'
+				}
+			}
 		}
 	});
 
@@ -86,7 +91,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-express-server');
 	grunt.registerTask('default', ['integratorConfig', 'sync', 'sass', 'watch']);
+	grunt.registerTask('server', ['express', 'default']);
 	grunt.registerTask('build', ['integratorConfig', 'sync', 'sass']);
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {

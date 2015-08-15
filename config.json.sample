@@ -4,5 +4,11 @@
 			"outputStyle" : "nested",
 			"sourceMap": true
 		}
+	},
+	"express" : {
+		"options" : {
+			"port" : 8888,
+			"args" : ["http://www.foo.bar"]
+		}
 	}
 }
