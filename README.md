@@ -53,5 +53,8 @@ Compile les fichiers sass
 Surveille les modifications des fichiers sass et les recompiles automatiquement
 > tâche par defaut, pas la peine de la spécifier, on peut juste taper `grunt`
 
-### server
-Pareil que *défault*, mais démare un serveur http local.
+### serve
+Pareil que *default*, mais démare un serveur http local.
+
+### min
+Minifie les css du répertoire de destination, ainsi que leurs sourceMap respectifs
