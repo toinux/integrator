@@ -50,12 +50,17 @@ module.exports = function(grunt) {
 		cssmin: {
 			options: {
 				shorthandCompacting: false,
-				roundingPrecision: -1
+				roundingPrecision: -1,
+				sourceMap: true
 			},
 			target: {
-				files: {
-					'css/style.min.css': ['css/style.css']
-				}
+				files: [{
+					expand: true,
+					cwd: '<%= cfg.dst %>',
+					src: ['*.css', '!*.min.css'],
+					dest: '<%= cfg.dst %>'
+					// ext: '.min.css' exemple d'extension, autrement les css originaux seront remplacés
+				}]
 			}
 		},
 		express: {
@@ -92,7 +97,8 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('build', ['checkParameters', 'sass']);
 	grunt.registerTask('default', ['build', 'watch']);
-	grunt.registerTask('server', ['express', 'default']);
+	grunt.registerTask('serve', ['express', 'default']);
+	grunt.registerTask('min', ['checkParameters', 'cssmin']);
 	
 
 	grunt.registerTask('checkParameters', 'Vérification de la configuration',  function() {
