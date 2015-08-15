@@ -7,10 +7,10 @@ app.get('/', function (req, res) {
 
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/sass', express.static(__dirname + '/sass'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.get('*', function (req, res) {
 	if (urlRedirection) {
-		console.log("redirect sur "+ 'http://www.pointp.fr' + req.originalUrl);
  		res.redirect(urlRedirection + req.originalUrl);
 	} else {
 		res.status(404).send('Not found');
