@@ -1,4 +1,8 @@
 {
+	"cfg" : {
+		"src" : "repertoire_sass",
+		"dst" : "repertoire_css"
+	},
 	"sass" : {
 		"options" : {
 			"outputStyle" : "nested",

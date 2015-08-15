@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 					expand: true,
 					cwd: 'sass',
 					src: ['*.scss'],
-					dest: grunt.option('dst'),
+					dest: '<%= cfg.dst %>',
 					ext: '.css'
 				}]
 			},
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 
 			},
 			options: {
-				cwd: grunt.option('src'),
+				cwd: '<%= cfg.src %>',
 				spawn: false,
 				interrupt: true,
 				// voir ici https://github.com/livereload/livereload-js
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
 		sync: {
 			main: {
 				files: [{
-					cwd: grunt.option('src'),
+					cwd: '<%= cfg.src %>',
 					src: ['*.scss'],
 					dest: 'sass'
 				}],
@@ -82,10 +82,20 @@ module.exports = function(grunt) {
 		}
 	});
 
-
 	if (grunt.file.exists('config.json')) {
 		grunt.config.merge(grunt.file.readJSON('config.json'));
 	}
+
+	// --src=... et --dst=... sont prioritaires
+	var options = {};
+	['src','dst'].forEach(function(arg) {
+		if (grunt.option(arg)) {
+			options[arg] = grunt.option(arg);
+		}
+	});
+	grunt.config.merge({
+		cfg: options
+	});
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -98,8 +108,9 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
 
-		var src = grunt.option('src') || grunt.fail.fatal("option --src=<repertoire> manquant");
-		var dst = grunt.option('dst') || grunt.fail.fatal("option --dst=<repertoire> manquant");
+		var cfg = grunt.config.get('cfg');
+		var src = cfg.src || grunt.fail.fatal("option --src=<repertoire> manquant");
+		var dst = cfg.dst || grunt.fail.fatal("option --dst=<repertoire> manquant");
 
 		grunt.file.isDir(src) || grunt.fail.fatal("repertoire '"+src+"' inexistant");
 		grunt.file.isDir(dst) || grunt.fail.warn("repertoire '"+dst+"' inexistant");
