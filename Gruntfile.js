@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 				sourceMap: true, 
 				outputStyle: 'compressed',
 				includePaths: [
-					'.compass',
+					'bower_components/compass-mixins/lib',
 					'bower_components/bootstrap-sass/assets/stylesheets'
 					]
 			}
