@@ -12,8 +12,7 @@ set HTTP_PROXY=http://host:port
 npm install -g grunt-cli
 npm install -g bower
 npm install
-bower install bootstrap-sass
-bower install compass-mixins
+bower install
 ```
 ## Customisation
 
