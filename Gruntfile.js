@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 			app: {
 				files: [{
 					expand: true,
-					cwd: 'sass',
+					cwd: '<%= cfg.src %>',
 					src: ['*.scss'],
 					dest: '<%= cfg.dst %>',
 					ext: '.css'
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 				// If you want to watch all scss files instead, use the "**/*" globbing pattern
 				files: ['*.scss'],
 				// runs the task `sass` whenever any watched file changes 
-				tasks: ['sync', 'sass']
+				tasks: ['sass']
 
 			},
 			options: {
@@ -45,18 +45,6 @@ module.exports = function(grunt) {
 					grunt.log.write(grunt.template.today("[HH:MM:ss] "));
 					grunt.log.writeln('Execution en '+time+'ms');
 				}
-			}
-		},
-		sync: {
-			main: {
-				files: [{
-					cwd: '<%= cfg.src %>',
-					src: ['*.scss'],
-					dest: 'sass'
-				}],
-				verbose: true, // Default: false 
-				pretend: false, // Don't do any disk operations - just write log. Default: false
-				updateAndDelete: true
 			}
 		},
 		cssmin: {
@@ -99,14 +87,15 @@ module.exports = function(grunt) {
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-sync');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-express-server');
-	grunt.registerTask('default', ['integratorConfig', 'sync', 'sass', 'watch']);
-	grunt.registerTask('server', ['express', 'default']);
-	grunt.registerTask('build', ['integratorConfig', 'sync', 'sass']);
 
-	grunt.registerTask('integratorConfig', 'Vérification de la configuration',  function() {
+	grunt.registerTask('build', ['checkParameters', 'sass']);
+	grunt.registerTask('default', ['build', 'watch']);
+	grunt.registerTask('server', ['express', 'default']);
+	
+
+	grunt.registerTask('checkParameters', 'Vérification de la configuration',  function() {
 
 		var cfg = grunt.config.get('cfg');
 		var src = cfg.src || grunt.fail.fatal("option --src=<repertoire> manquant");
