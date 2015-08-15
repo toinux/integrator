@@ -1,7 +1,8 @@
 # Integrator
 
 ## Pré-requis
-Obligatoirement [nodejs](https://nodejs.org/), et accessoirement [git](https://git-scm.com) pour pouvoir facilement mettre à jour ce projet.
+- [nodejs](https://nodejs.org/)
+- [git](https://git-scm.com) (bower s'en sert pour télécharder les paquets).
 
 ## Installation
 ```Shell
