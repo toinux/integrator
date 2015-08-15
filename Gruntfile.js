@@ -75,44 +75,40 @@ module.exports = function(grunt) {
 		}
 	});
 
+	// lecture du fichier de configuration
 	if (grunt.file.exists('config.json')) {
 		grunt.config.merge(grunt.file.readJSON('config.json'));
 	}
 
-	// --src=... et --dst=... sont prioritaires
+	// --src=... et --dst=... sont prioritaires par rapport au fichier de configuration
 	var options = {};
 	['src','dst'].forEach(function(arg) {
 		if (grunt.option(arg)) {
 			options[arg] = grunt.option(arg);
 		}
 	});
+
+	// mise à jour de la configuration par rapport aux options passées en ligne de commande
 	grunt.config.merge({
 		cfg: options
 	});
+	
+	var cfg = grunt.config.get('cfg');
+	var src = cfg.src || grunt.fail.fatal("option --src=<repertoire> manquant");
+	var dst = cfg.dst || grunt.fail.fatal("option --dst=<repertoire> manquant");
+
+	grunt.file.isDir(src) || grunt.fail.fatal("repertoire '"+src+"' inexistant");
+	grunt.file.isDir(dst) || grunt.fail.warn("repertoire '"+dst+"' inexistant");
+
+	grunt.log.write("Répertoire source      : ").writeln(src['cyan']);
+	grunt.log.write("Répertoire destination : ").writeln(dst['cyan']);
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-express-server');
 
-	grunt.registerTask('build', ['checkParameters', 'sass']);
-	grunt.registerTask('default', ['build', 'watch']);
+	grunt.registerTask('default', ['sass', 'watch']);
 	grunt.registerTask('serve', ['express', 'default']);
-	grunt.registerTask('min', ['checkParameters', 'cssmin']);
-	
-
-	grunt.registerTask('checkParameters', 'Vérification de la configuration',  function() {
-
-		var cfg = grunt.config.get('cfg');
-		var src = cfg.src || grunt.fail.fatal("option --src=<repertoire> manquant");
-		var dst = cfg.dst || grunt.fail.fatal("option --dst=<repertoire> manquant");
-
-		grunt.file.isDir(src) || grunt.fail.fatal("repertoire '"+src+"' inexistant");
-		grunt.file.isDir(dst) || grunt.fail.warn("repertoire '"+dst+"' inexistant");
-
-		grunt.log.write("Répertoire source      : ").writeln(src['cyan']);
-		grunt.log.write("Répertoire destination : ").writeln(dst['cyan']);
-		
-	});
 
 };

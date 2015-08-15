@@ -46,7 +46,7 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 
 ## Tâches
 
-### build
+### sass
 Compile les fichiers sass
 
 ### default
@@ -56,5 +56,5 @@ Surveille les modifications des fichiers sass et les recompiles automatiquement
 ### serve
 Pareil que *default*, mais démare un serveur http local.
 
-### min
+### cssmin
 Minifie les css du répertoire de destination, ainsi que leurs sourceMap respectifs
