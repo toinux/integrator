@@ -1,15 +1,57 @@
 # Integrator
 
+## Pré-requis
+Obligatoirement [nodejs](https://nodejs.org/), et accessoirement [git](https://git-scm.com) pour pouvoir facilement mettre à jour ce projet.
+
 ## Installation
+```Shell
+# Avant de lancer l'installation, paraméter la variable d'environnement si besoin
+set HTTP_PROXY=http://host:port
 
-	npm install
-	bower install bootstrap-sass
-	bower install compass-mixins
-
+npm install -g grunt-cli
+npm install -g bower
+npm install
+bower install bootstrap-sass
+bower install compass-mixins
+```
 ## Customisation
 
-Il suffit de copier le fichier `config.json.sample` ->  `config.json` et d'y mettre les valeurs customisées
+Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.sample`) et de le compléter avec les valeurs qui prendront le dessus par rapport à celles définies dans `Gruntfile.js`, par exemple :
+```json
+{
+	"cfg" : {
+		"src" : "repertoire_sass",
+		"dst" : "repertoire_css"
+	},
+	"sass" : {
+		"options" : {
+			"outputStyle" : "nested",
+			"sourceMap": true
+		}
+	},
+	"express" : {
+		"options" : {
+			"port" : 8888,
+			"args" : ["http://www.foo.bar"]
+		}
+	}
+}
+```
 
 ## Exécution
 
-	grunt --src=<sass_directory> --dst=<css_directory>
+	grunt [task] --src=<sass_directory> --dst=<css_directory>
+
+> les paramètres src et dst peuvent être déclarés dans `config.json`
+
+## Tâches
+
+### build
+Compile les fichiers sass
+
+### default
+Surveille les modifications des fichiers sass et les recompiles automatiquement
+> tâche par defaut, pas la peine de la spécifier, on peut juste taper `grunt`
+
+### server
+Pareil que *défault*, mais démare un serveur http local.
