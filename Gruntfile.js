@@ -18,9 +18,9 @@ module.exports = function(grunt) {
 				sourceMap: true, 
 				outputStyle: 'compressed',
 				includePaths: [
-					'bower_components/compass-mixins/lib',
-					'bower_components/bootstrap-sass/assets/stylesheets'
-					]
+				'bower_components/compass-mixins/lib',
+				'bower_components/bootstrap-sass/assets/stylesheets'
+				]
 			}
 		},
 		watch: {
@@ -47,20 +47,17 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		cssmin: {
+		postcss: {
 			options: {
-				shorthandCompacting: false,
-				roundingPrecision: -1,
-				sourceMap: true
+				map: true, // sourcemaps
+				processors: [
+				require('pixrem')(), // add fallbacks for rem units
+				require('autoprefixer-core')({browsers: 'last 2 versions'}), // add vendor prefixes
+				require('cssnano')() // minify the result
+				]
 			},
-			target: {
-				files: [{
-					expand: true,
-					cwd: '<%= cfg.dst %>',
-					src: ['*.css', '!*.min.css'],
-					dest: '<%= cfg.dst %>'
-					// ext: '.min.css' exemple d'extension, autrement les css originaux seront remplacés
-				}]
+			dist: {
+				src: '<%= cfg.dst %>/*.css'
 			}
 		},
 		express: {
@@ -105,7 +102,7 @@ module.exports = function(grunt) {
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-postcss');
 	grunt.loadNpmTasks('grunt-express-server');
 
 	grunt.registerTask('default', ['sass', 'watch']);

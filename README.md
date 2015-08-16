@@ -49,12 +49,12 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 ### sass
 Compile les fichiers sass
 
-### default
+### watch
 Surveille les modifications des fichiers sass et les recompiles automatiquement
 > tâche par defaut, pas la peine de la spécifier, on peut juste taper `grunt`
 
 ### serve
-Pareil que *default*, mais démare un serveur http local.
+Pareil que *watch*, mais démare un serveur http local.
 
-### cssmin
-Minifie les css du répertoire de destination, ainsi que leurs sourceMap respectifs
+### postcss
+Postprocess des css, ainsi que leurs sourceMap respectifs
