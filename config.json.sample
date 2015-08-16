@@ -5,13 +5,13 @@
 	},
 	"sass" : {
 		"options" : {
-			"outputStyle" : "nested",
+			"outputStyle" : "compressed",
 			"sourceMap": true
 		}
 	},
 	"express" : {
 		"options" : {
-			"port" : 8888,
+			"port" : 3000,
 			"args" : ["http://www.foo.bar"]
 		}
 	}
