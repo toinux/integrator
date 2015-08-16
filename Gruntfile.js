@@ -2,6 +2,23 @@
 
 module.exports = function(grunt) {
 
+	function localCssMiddleware() {
+
+		var fs = require('fs');
+		var url = require("url");
+
+		return function (req, res, next) {
+			var parsed = url.parse(req.url);
+			var match = parsed.pathname.match(/style.*\.css$/);
+			if (match) {
+				var cfg = grunt.config.get('cfg');
+				return res.end(fs.readFileSync(cfg.css + '/' + match[0]));
+			}
+			next();
+		}
+	}
+
+
 	grunt.initConfig({
 		sass: {
 			app: {
@@ -69,6 +86,20 @@ module.exports = function(grunt) {
 					script: 'server.js'
 				}
 			}
+		},
+		browserSync: {
+			dev: {
+				bsFiles: {
+					src : '<%= cfg.css %>/*.css'
+				},
+				options: {
+					watchTask: true,
+					proxy: {
+						target: "www.pointp.fr",
+						middleware: localCssMiddleware()
+					}
+				}
+			}
 		}
 	});
 
@@ -104,8 +135,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-postcss');
 	grunt.loadNpmTasks('grunt-express-server');
+	grunt.loadNpmTasks('grunt-browser-sync');
 
 	grunt.registerTask('default', ['sass', 'watch']);
 	grunt.registerTask('serve', ['express', 'default']);
+	grunt.registerTask('bs', ['browserSync', 'default']);
 
 };
