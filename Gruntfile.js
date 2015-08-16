@@ -7,9 +7,9 @@ module.exports = function(grunt) {
 			app: {
 				files: [{
 					expand: true,
-					cwd: '<%= cfg.src %>',
+					cwd: '<%= cfg.sass %>',
 					src: ['*.scss'],
-					dest: '<%= cfg.dst %>',
+					dest: '<%= cfg.css %>',
 					ext: '.css'
 				}]
 			},
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 
 			},
 			options: {
-				cwd: '<%= cfg.src %>',
+				cwd: '<%= cfg.sass %>',
 				spawn: false,
 				interrupt: true,
 				// voir ici https://github.com/livereload/livereload-js
@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 				]
 			},
 			dist: {
-				src: '<%= cfg.dst %>/*.css'
+				src: '<%= cfg.css %>/*.css'
 			}
 		},
 		express: {
@@ -77,9 +77,9 @@ module.exports = function(grunt) {
 		grunt.config.merge(grunt.file.readJSON('config.json'));
 	}
 
-	// --src=... et --dst=... sont prioritaires par rapport au fichier de configuration
+	// --sass=... et --css=... sont prioritaires par rapport au fichier de configuration
 	var options = {};
-	['src','dst'].forEach(function(arg) {
+	['sass','css'].forEach(function(arg) {
 		if (grunt.option(arg)) {
 			options[arg] = grunt.option(arg);
 		}
@@ -91,14 +91,14 @@ module.exports = function(grunt) {
 	});
 	
 	var cfg = grunt.config.get('cfg');
-	var src = cfg.src || grunt.fail.fatal("option --src=<repertoire> manquant");
-	var dst = cfg.dst || grunt.fail.fatal("option --dst=<repertoire> manquant");
+	var sass = cfg.sass || grunt.fail.fatal("option --sass=<repertoire> manquant");
+	var css = cfg.css || grunt.fail.fatal("option --css=<repertoire> manquant");
 
-	grunt.file.isDir(src) || grunt.fail.fatal("repertoire '"+src+"' inexistant");
-	grunt.file.isDir(dst) || grunt.fail.warn("repertoire '"+dst+"' inexistant");
+	grunt.file.isDir(sass) || grunt.fail.fatal("repertoire '"+sass+"' inexistant");
+	grunt.file.isDir(css) || grunt.fail.warn("repertoire '"+css+"' inexistant");
 
-	grunt.log.write("Répertoire source      : ").writeln(src['cyan']);
-	grunt.log.write("Répertoire destination : ").writeln(dst['cyan']);
+	grunt.log.write("Répertoire source      : ").writeln(sass['cyan']);
+	grunt.log.write("Répertoire destination : ").writeln(css['cyan']);
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
