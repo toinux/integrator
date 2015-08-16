@@ -79,7 +79,7 @@ module.exports = function(grunt) {
 		},
 		express: {
 			options: {
-				args: [] // url de redirection par defaut, par exemple ['http://www.foo.bar']
+				args: ['<%= cfg.site %>'] // url de redirection par defaut, par exemple ['http://www.foo.bar']
 			},
 			main: {
 				options: {
@@ -108,9 +108,9 @@ module.exports = function(grunt) {
 		grunt.config.merge(grunt.file.readJSON('config.json'));
 	}
 
-	// --sass=... et --css=... sont prioritaires par rapport au fichier de configuration
+	// --sass=..., --css=... et --site=... sont prioritaires par rapport au fichier de configuration
 	var options = {};
-	['sass','css'].forEach(function(arg) {
+	['sass','css', 'site'].forEach(function(arg) {
 		if (grunt.option(arg)) {
 			options[arg] = grunt.option(arg);
 		}
@@ -124,12 +124,14 @@ module.exports = function(grunt) {
 	var cfg = grunt.config.get('cfg');
 	var sass = cfg.sass || grunt.fail.fatal("option --sass=<repertoire> manquant");
 	var css = cfg.css || grunt.fail.fatal("option --css=<repertoire> manquant");
+	var site = cfg.site;
 
 	grunt.file.isDir(sass) || grunt.fail.fatal("repertoire '"+sass+"' inexistant");
 	grunt.file.isDir(css) || grunt.fail.warn("repertoire '"+css+"' inexistant");
 
 	grunt.log.write("Répertoire source      : ").writeln(sass['cyan']);
 	grunt.log.write("Répertoire destination : ").writeln(css['cyan']);
+	grunt.log.write("Site web               : ").writeln(site ? site['cyan'] : "non défini"['yellow']);
 	
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
