@@ -21,7 +21,8 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 {
 	"cfg" : {
 		"src" : "repertoire_sass",
-		"dst" : "repertoire_css"
+		"dst" : "repertoire_css",
+		"site" : "http://www.foo.bar"
 	},
 	"sass" : {
 		"options" : {
@@ -31,8 +32,7 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 	},
 	"express" : {
 		"options" : {
-			"port" : 8888,
-			"args" : ["http://www.foo.bar"]
+			"port" : 8888
 		}
 	}
 }
@@ -40,9 +40,9 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 
 ## Exécution
 
-	grunt [task] --src=<sass_directory> --dst=<css_directory>
+	grunt [task] --src=<sass_directory> --dst=<css_directory> [--site=<site_url>]
 
-> les paramètres src et dst peuvent être déclarés dans `config.json`
+> les paramètres src, dst et site peuvent être déclarés dans `config.json`
 
 ## Tâches
 

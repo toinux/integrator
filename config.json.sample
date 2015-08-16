@@ -1,7 +1,8 @@
 {
 	"cfg" : {
 		"sass" : "repertoire_sass",
-		"css" : "repertoire_css"
+		"css" : "repertoire_css",
+		"site" : "http://www.foo.bar"
 	},
 	"sass" : {
 		"options" : {
