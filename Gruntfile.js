@@ -95,7 +95,7 @@ module.exports = function(grunt) {
 				options: {
 					watchTask: true,
 					proxy: {
-						target: "www.pointp.fr",
+						target: "<%= cfg.site %>",
 						middleware: localCssMiddleware()
 					}
 				}
