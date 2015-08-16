@@ -51,8 +51,8 @@ module.exports = function(grunt) {
 			options: {
 				map: true, // sourcemaps
 				processors: [
-				require('pixrem')(), // add fallbacks for rem units
-				require('autoprefixer-core')({browsers: 'last 2 versions'}), // add vendor prefixes
+				require('pixrem')(), // add fallbacks for rem units, cf https://github.com/robwierzbowski/node-pixrem pour les browers supportés
+				require('autoprefixer-core')({browsers: 'last 2 versions'}), // voir https://github.com/ai/browserslist pour definir les browers supportés
 				require('cssnano')() // minify the result
 				]
 			},
