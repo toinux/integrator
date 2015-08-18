@@ -8,11 +8,30 @@ module.exports = function(grunt) {
 		var url = require("url");
 
 		return function (req, res, next) {
+			
+			var cfg = grunt.config.get('cfg');
+			var filename = null;
+			
 			var parsed = url.parse(req.url);
-			var match = parsed.pathname.match(/style.*\.css$/);
+			
+			var match = parsed.pathname.match(/style.*\.css(?:.map)?$/);
 			if (match) {
-				var cfg = grunt.config.get('cfg');
-				return res.end(fs.readFileSync(cfg.css + '/' + match[0]));
+				filename = cfg.css + '/' + match[0];
+			} else if(match = parsed.pathname.match(/bower_components.*\.(scss|map)$/)) {
+				filename = __dirname + '/' + match[0];
+			} else if(match = parsed.pathname.match(/[^\/]+.scss$/)) {
+				filename = cfg.sass + '/' + match[0];
+			}
+			if (null != filename) {
+				console.log(filename);
+				var contentType = 'text/css; charset=utf-8';
+				if(/map$/.test(filename)) {
+					contentType = 'application/json; charset=utf-8';		
+				} else if (/scss$/.test(filename)) {
+					contentType = 'text/scss; charset=utf-8';
+				}
+				res.setHeader('Content-Type', contentType);
+				return res.end(fs.readFileSync(filename));
 			}
 			next();
 		}
