@@ -8,12 +8,12 @@ module.exports = function(grunt) {
 		var url = require("url");
 
 		return function (req, res, next) {
-			
+
 			var cfg = grunt.config.get('cfg');
 			var filename = null;
-			
+
 			var parsed = url.parse(req.url);
-			
+
 			var match = parsed.pathname.match(/style.*\.css(?:.map)?$/);
 			if (match) {
 				filename = cfg.css + '/' + match[0];
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 				console.log(filename);
 				var contentType = 'text/css; charset=utf-8';
 				if(/map$/.test(filename)) {
-					contentType = 'application/json; charset=utf-8';		
+					contentType = 'application/json; charset=utf-8';
 				} else if (/scss$/.test(filename)) {
 					contentType = 'text/scss; charset=utf-8';
 				}
@@ -51,20 +51,21 @@ module.exports = function(grunt) {
 			},
 			// Voir https://github.com/sass/node-sass#options pour toutes les operations
 			options: {
-				sourceMap: true, 
+				sourceMap: true,
 				outputStyle: 'compressed',
 				includePaths: [
 				'bower_components/compass-mixins/lib',
-				'bower_components/bootstrap-sass/assets/stylesheets'
+				'bower_components/bootstrap-sass/assets/stylesheets',
+				'bower_components/bourbon/assets/stylesheets'
 				]
 			}
 		},
 		watch: {
 			sass: {
-				// Watches all Sass or Scss files within the sass folder and one level down. 
+				// Watches all Sass or Scss files within the sass folder and one level down.
 				// If you want to watch all scss files instead, use the "**/*" globbing pattern
 				files: ['*.scss'],
-				// runs the task `sass` whenever any watched file changes 
+				// runs the task `sass` whenever any watched file changes
 				tasks: ['sass']
 
 			},
@@ -139,7 +140,7 @@ module.exports = function(grunt) {
 	grunt.config.merge({
 		cfg: options
 	});
-	
+
 	var cfg = grunt.config.get('cfg');
 	var sass = cfg.sass || grunt.fail.fatal("option --sass=<repertoire> manquant");
 	var css = cfg.css || grunt.fail.fatal("option --css=<repertoire> manquant");
@@ -151,7 +152,7 @@ module.exports = function(grunt) {
 	grunt.log.write("Répertoire source      : ").writeln(sass['cyan']);
 	grunt.log.write("Répertoire destination : ").writeln(css['cyan']);
 	grunt.log.write("Site web               : ").writeln(site ? site['cyan'] : "non défini"['yellow']);
-	
+
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-postcss');
