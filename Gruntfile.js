@@ -78,7 +78,7 @@ module.exports = function(grunt) {
 				livereloadOnError: false,
 				dateFormat: function(time) {
 					grunt.log.write(grunt.template.today("[HH:MM:ss] "));
-					grunt.log.writeln('Execution en '+time+'ms');
+					grunt.log.writeln('Execution en '+(''+time).green.bold+' ms');
 				}
 			}
 		},
@@ -147,9 +147,9 @@ module.exports = function(grunt) {
 	grunt.file.isDir(sass) || grunt.fail.fatal("repertoire '"+sass+"' inexistant");
 	grunt.file.isDir(css) || grunt.fail.warn("repertoire '"+css+"' inexistant");
 
-	grunt.log.write("Répertoire source      : ").writeln(sass['cyan']);
-	grunt.log.write("Répertoire destination : ").writeln(css['cyan']);
-	grunt.log.write("Site web               : ").writeln(site ? site['cyan'] : "non défini"['yellow']);
+	grunt.log.write("Répertoire source      : ").writeln(sass.cyan);
+	grunt.log.write("Répertoire destination : ").writeln(css.cyan);
+	grunt.log.write("Site web               : ").writeln(site ? site.cyan : "non défini".yellow);
 
 	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-watch');
