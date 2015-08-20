@@ -23,7 +23,6 @@ module.exports = function(grunt) {
 				filename = cfg.sass + '/' + match[0];
 			}
 			if (null != filename) {
-				console.log(filename);
 				var contentType = 'text/css; charset=utf-8';
 				if(/map$/.test(filename)) {
 					contentType = 'application/json; charset=utf-8';
