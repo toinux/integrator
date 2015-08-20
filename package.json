@@ -11,7 +11,7 @@
   "private": true,
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",
-    "cssnano": "^2.2.0",
+    "cssnano": "^2.6.1",
     "express": "^4.13.3",
     "grunt": "^0.4.5",
     "grunt-browser-sync": "^2.1.3",
