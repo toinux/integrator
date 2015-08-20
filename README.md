@@ -22,8 +22,7 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 	"cfg" : {
 		"sass" : "repertoire_sass",
 		"css" : "repertoire_css",
-		"site" : "http://www.foo.bar",
-		"browsers" : "last 2 versions"
+		"site" : "http://www.foo.bar"
 	},
 	"sass" : {
 		"options" : {
@@ -43,8 +42,6 @@ Les paramètres de la catégorie `cfg` sont un peu plus spécifiques :
 - sass : répertoire des fichiers sass source
 - css : répertoire où seront compilés les fichiers css (et source maps)
 - site : url du site à tester avec [browser sync](http://www.browsersync.io/)
-- browsers : version des navigateurs utilisé par l'[autoprefixer](https://github.com/postcss/autoprefixer), par défaut `last 2 versions`.
-  voir la [liste des browsers supportés](https://github.com/ai/browserslist) pour modifier ce paramètre.
 
 ## Exécution
 
@@ -65,4 +62,6 @@ Surveille les modifications des fichiers sass et les recompiles automatiquement
 Pareil que *watch*, mais démare un serveur http local.
 
 ### postcss
-Postprocess des css, ainsi que leurs sourceMap respectifs
+[Postprocess](https://github.com/nDmitry/grunt-postcss) des css, ainsi que leurs sourceMap respectifs.
+On peut paramétrer la version des navigateurs utilisé par l'[autoprefixer](https://github.com/postcss/autoprefixer) en créant un fichier `browserslist` (on peut utiliser `browserlist.sample`).
+Pour la syntaxe du fichier `browserslist`, voir la [liste des browsers supportés](https://github.com/ai/browserslist).

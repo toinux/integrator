@@ -36,15 +36,6 @@ module.exports = function(grunt) {
 		}
 	}
 
-	// lecture du fichier de configuration
-	var configJson = {};
-	if (grunt.file.exists('config.json')) {
-		configJson = grunt.file.readJSON('config.json');
-	}
-	if (!configJson.cfg) {
-		configJson.cfg = {};
-	}
-
 	grunt.initConfig({
 		sass: {
 			app: {
@@ -96,7 +87,7 @@ module.exports = function(grunt) {
 				map: true, // sourcemaps
 				processors: [
 				require('pixrem')(), // add fallbacks for rem units, cf https://github.com/robwierzbowski/node-pixrem pour les browers supportés
-				require('autoprefixer-core')({browsers: configJson.cfg.browsers || 'last 2 versions'}), // voir https://github.com/ai/browserslist pour definir les browers supportés
+				require('autoprefixer-core')(), // voir https://github.com/ai/browserslist pour definir les browers supportés dans le fichier 'browserslist'
 				require('cssnano')() // minify the result
 				]
 			},
@@ -130,8 +121,10 @@ module.exports = function(grunt) {
 		}
 	});
 
-	// mise à jour de la configuration par rapport au contenu de config.json
-	grunt.config.merge(configJson);
+	// lecture du fichier de configuration
+	if (grunt.file.exists('config.json')) {
+		grunt.config.merge(grunt.file.readJSON('config.json'));
+	}
 
 	// --sass=..., --css=... et --site=... sont prioritaires par rapport au fichier de configuration
 	var options = {};
