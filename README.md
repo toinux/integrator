@@ -22,7 +22,8 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 	"cfg" : {
 		"sass" : "repertoire_sass",
 		"css" : "repertoire_css",
-		"site" : "http://www.foo.bar"
+		"site" : "http://www.foo.bar",
+		"browsers" : "last 2 versions"
 	},
 	"sass" : {
 		"options" : {
@@ -37,6 +38,13 @@ Il suffit de créer un fichier `config.json` (on peut utiliser `config.json.samp
 	}
 }
 ```
+
+Les paramètres de la catégorie `cfg` sont un peu plus spécifiques :
+- sass : répertoire des fichiers sass source
+- css : répertoire où seront compilés les fichiers css (et source maps)
+- site : url du site à tester avec [browser sync](http://www.browsersync.io/)
+- browsers : version des navigateurs utilisé par l'[autoprefixer](https://github.com/postcss/autoprefixer), par défaut `last 2 versions`.
+  voir la [liste des browsers supportés](https://github.com/ai/browserslist) pour modifier ce paramètre.
 
 ## Exécution
 
