@@ -2,44 +2,6 @@
 
 module.exports = function(grunt) {
 
-
-/*
-
-	function localCssMiddleware() {
-
-		var fs = require('fs');
-		var url = require("url");
-
-		return function (req, res, next) {
-
-			var cfg = grunt.config.get('cfg');
-			var filename = null;
-
-			var parsed = url.parse(req.url);
-
-			var match = parsed.pathname.match(/style.*\.css(?:.map)?$/);
-			if (match) {
-				filename = cfg.css + '/' + match[0];
-			} else if(match = parsed.pathname.match(/bower_components.*\.(scss|map)$/)) {
-				filename = __dirname + '/' + match[0];
-			} else if(match = parsed.pathname.match(/[^\/]+.scss$/)) {
-				filename = cfg.sass + '/' + match[0];
-			}
-			if (null != filename) {
-				var contentType = 'text/css; charset=utf-8';
-				if(/map$/.test(filename)) {
-					contentType = 'application/json; charset=utf-8';
-				} else if (/scss$/.test(filename)) {
-					contentType = 'text/scss; charset=utf-8';
-				}
-				res.setHeader('Content-Type', contentType);
-				return res.end(fs.readFileSync(filename));
-			}
-			next();
-		}
-	}
-
- */
 	// Pour remplacer les CSS / JS de la page par les CSS / JS locales dans le cas où l'on a des fichiers en local
 	function localMiddleware() {
 
@@ -50,10 +12,9 @@ module.exports = function(grunt) {
 
 			var cfg = grunt.config.get('cfg');
 			var filename = null;
-
 			var parsed = url.parse(req.url);
-
 			var match = parsed.pathname.match(/style.*\.css(?:.map)?$/);
+
 			if (match) {
 				filename = cfg.css + '/' + match[0];
 			} else if(match = parsed.pathname.match(/[^\/]+.js(?:.map)?$/)){
@@ -65,8 +26,11 @@ module.exports = function(grunt) {
 			}
 
 			if (null !== filename) {
+
 				//console.log(filename);
 				var contentType = 'text/css; charset=utf-8';
+				var exist = null;
+
 				if(/map$/.test(filename)) {
 					contentType = 'application/json; charset=utf-8';
 				} else if (/scss$/.test(filename)) {
@@ -74,73 +38,21 @@ module.exports = function(grunt) {
 				} else if(/js$/.test(filename)){
 					contentType = 'application/javascript; charset=utf-8';
 				}
-
-				fs.exists(filename, function(exists) {
-					if (exists) {
-
-						//file exists
-						// STACK : Le traitement de la réponse est aléatoire et il y a une erreur fatale "Fatal error: Can't set headers after they are sent."
-						var util = require('util');
-						console.log(util.inspect(res));
-						console.log(res.headers);
-						res.setHeader('Content-Type', contentType);
-						res.writeHead('200');
-						console.log(res.headers);
-						return res.end(fs.readFileSync(filename));
-					}
-				});
-
-				// res.setHeader('Content-Type', contentType);
-				// return res.end(fs.readFileSync(filename));
+				try {
+					var exist = fs.statSync(filename);
+				} catch (err) {
+					console.log("Le fichier "+filename+" n'existe pas en local et ne peut pas être synchronisé. La version présente sur le serveur sera utilisée.");
+					// Pour plus de détail sur l'erreur
+					// console.error(err);
+				}
+				if(null !== exist){
+					res.setHeader('Content-Type', contentType);
+					return res.end(fs.readFileSync(filename));
+				}
 			}
 			next();
 		};
 	}
-
-
-	/*
-	// Pour remplacer les CSS de la page par les CSS locales dans le cas où l'on a des css en local
-	function localJsMiddleware() {
-
-		var fs = require('fs');
-		var url = require("url");
-
-		return function (req, res, next) {
-
-			var cfg = grunt.config.get('cfg');
-			var filename = null;
-
-			var parsed = url.parse(req.url);
-
-			var match = parsed.pathname.match(/[^\/]+.js(?:.map)?$/);
-			if (match) {
-				filename = cfg.js + '/' + match[0];
-			}
-			if (null !== filename) {
-				fs.exists(filename, function(exists) {
-					console.log(exists);
-					if (exists) {
-						//file exists
-						console.log(filename);
-						var contentType = 'text/javascript; charset=utf-8';
-						if(/map$/.test(filename)) {
-							contentType = 'application/json; charset=utf-8';
-						}
-						res.setHeader('Content-Type', contentType);
-						return res.end(fs.readFile(filename,
-							function (err, data) {
-								if (err) throw err;
-								// console.log(data);
-							}
-						));
-					}
-				});
-			}
-			next();
-		};
-	}
-
-	*/
 
 	grunt.initConfig({
 		sass: {
